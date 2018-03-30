@@ -1,0 +1,391 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Techtablet Services Documentation",
+        "description": "micro services",
+        "version": "1.0.0"
+    },
+    "host": "staging.touchiz.fr",
+    "basePath": "/dev/services",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/supplierorders": {
+            "get": {
+                "tags": [
+                    "Gestion des commandes fournisseur"
+                ],
+                "summary": "Toutes les commandes",
+                "description": "Liste de toutes les commandes fournisseur",
+                "operationId": "getOrders",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la requ\u00eate"
+                    },
+                    "404": {
+                        "description": "Ressource introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Gestion des commandes fournisseur"
+                ],
+                "summary": "Cr\u00e9ation d'une commande",
+                "description": "Cr\u00e9ation d'une commande fournisseur au moyen des informations pass\u00e9es en param\u00e8tre",
+                "operationId": "createSupplierOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id_supplier",
+                        "in": "query",
+                        "description": "ID du fournisseur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id_transporter",
+                        "in": "query",
+                        "description": "ID du transporteur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "created_by",
+                        "in": "query",
+                        "description": "ID de l'application",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la requ\u00eate"
+                    },
+                    "404": {
+                        "description": "Ressource introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            }
+        },
+        "/supplierorders/open": {
+            "get": {
+                "tags": [
+                    "Gestion des commandes fournisseur"
+                ],
+                "summary": "Toutes les commandes en cours de pr\u00e9paration",
+                "description": "R\u00e9cup\u00e9ration des commandes fournisseur en cours de pr\u00e9paration",
+                "operationId": "getOpenOrders",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la requ\u00eate"
+                    },
+                    "404": {
+                        "description": "Ressource introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            }
+        },
+        "/supplierorders/{id_order}": {
+            "get": {
+                "tags": [
+                    "Gestion des commandes fournisseur"
+                ],
+                "summary": "D\u00e9tail d'une commande",
+                "description": "R\u00e9cup\u00e9ration d'une commande fournisseur au moyen de l'ID de la commande pass\u00e9 en param\u00e8tre",
+                "operationId": "getSupplierOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id_order",
+                        "in": "path",
+                        "description": "ID de la commande",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la requ\u00eate"
+                    },
+                    "404": {
+                        "description": "Ressource introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Gestion des commandes fournisseur"
+                ],
+                "summary": "Edition d'une commande",
+                "description": "Edition d'une commande fournisseur au moyen des informations pass\u00e9es en param\u00e8tre",
+                "operationId": "editSupplierOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id_order",
+                        "in": "path",
+                        "description": "ID de la commande",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id_supplier",
+                        "in": "query",
+                        "description": "ID du fournisseur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id_transporter",
+                        "in": "query",
+                        "description": "ID du transporteur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "created_by",
+                        "in": "query",
+                        "description": "ID de l'application",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "transporter_price",
+                        "in": "query",
+                        "description": "Frais de transport",
+                        "type": "number",
+                        "default": 0
+                    },
+                    {
+                        "name": "totalweight",
+                        "in": "query",
+                        "description": "Poids total de la commande",
+                        "type": "number",
+                        "default": 0
+                    },
+                    {
+                        "name": "tracking",
+                        "in": "query",
+                        "description": "Tracking",
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "step",
+                        "in": "query",
+                        "description": "Status actuel de la commande",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "processed",
+                        "in": "query",
+                        "description": "Processed",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    {
+                        "name": "refund",
+                        "in": "query",
+                        "description": "Refund",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    {
+                        "name": "packaging",
+                        "in": "query",
+                        "description": "Packaging",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    {
+                        "name": "full_cost_computed",
+                        "in": "query",
+                        "description": "Revient",
+                        "type": "number",
+                        "default": 0
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la requ\u00eate"
+                    },
+                    "404": {
+                        "description": "Ressource introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            }
+        },
+        "/supplier": {
+            "get": {
+                "tags": [
+                    "Gestion des fournisseurs"
+                ],
+                "summary": "Toutes les fournisseurs",
+                "description": "Liste de toutes les fournisseurs",
+                "operationId": "getAllSupplier",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la transaction"
+                    },
+                    "404": {
+                        "description": "Page demander introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Gestion des fournisseurs"
+                ],
+                "summary": "Cr\u00e9ation d'une fournisseur",
+                "description": "Cr\u00e9ation d'une fournisseur au moyen des informations pass\u00e9es en param\u00e8tre",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nom du fournisseur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "description": "Key du fournisseur",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la transaction"
+                    },
+                    "404": {
+                        "description": "Page demander introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            }
+        },
+        "/supplier/{id}": {
+            "get": {
+                "tags": [
+                    "Gestion des fournisseurs"
+                ],
+                "summary": "Une fournisseur",
+                "description": "Description d'une fournisseur au moins une information pass\u00e9 en parametre",
+                "operationId": "getOneSupplier",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID ou Key du fournisseur",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la transaction"
+                    },
+                    "404": {
+                        "description": "Page demander introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Gestion des fournisseurs"
+                ],
+                "summary": "Edition d'une fournisseur",
+                "description": "Edition d'une fournisseur au moyen des informations pass\u00e9es en param\u00e8tre",
+                "operationId": "update",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du fournisseur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nom du fournisseur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "description": "Key du fournisseur",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la transaction"
+                    },
+                    "404": {
+                        "description": "Page demander introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {}
+}

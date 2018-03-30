@@ -1,0 +1,11 @@
+[2018-03-22 16:02:43] lumen.ERROR: exception 'ReflectionException' with message 'Class path.config does not exist' in /var/www/public_html/services/vendor/laravel/framework/src/Illuminate/Container/Container.php:741
+Stack trace:
+#0 /var/www/public_html/services/vendor/laravel/framework/src/Illuminate/Container/Container.php(741): ReflectionClass->__construct('path.config')
+#1 /var/www/public_html/services/vendor/laravel/framework/src/Illuminate/Container/Container.php(631): Illuminate\Container\Container->build('path.config', Array)
+#2 /var/www/public_html/services/vendor/laravel/lumen-framework/src/Application.php(447): Illuminate\Container\Container->make('path.config', Array)
+#3 /var/www/public_html/services/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(179): Laravel\Lumen\Application->make('path.config')
+#4 /var/www/public_html/services/vendor/darkaonline/l5-swagger/src/L5SwaggerServiceProvider.php(27): config_path('l5-swagger.php')
+#5 /var/www/public_html/services/vendor/laravel/lumen-framework/src/Application.php(278): L5Swagger\L5SwaggerServiceProvider->boot()
+#6 /var/www/public_html/services/bootstrap/app.php(87): Laravel\Lumen\Application->register('L5Swagger\\L5Swa...')
+#7 /var/www/public_html/services/index.php(14): require('/var/www/public...')
+#8 {main}  
