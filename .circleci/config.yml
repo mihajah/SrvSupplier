@@ -6,4 +6,5 @@ jobs:
     steps:
       - checkout
       - run: php vendor/bin/phpunit -v tests/tryTest
+      - run: php app/srv.php
 
