@@ -1,14 +1,9 @@
 version: 2
 jobs:
-  one:
+  build:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - run: echo "A first hello"
       - run: php artisan
-workflows:
-  version: 2
-  one:
-    jobs:
-      - one
+
