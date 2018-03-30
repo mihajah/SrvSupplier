@@ -60,7 +60,7 @@ $app->get('/', function () use ($app) {
  *          description="Connexion avec le serveur avec succès")
  * )
  */
-$app->get('/supplierorders', 'SupplierController@getAllOrders');
+$app->get('/supplierordersz', 'SupplierController@getAllOrders');
 
 
 /**
