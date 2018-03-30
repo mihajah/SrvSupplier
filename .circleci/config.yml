@@ -5,5 +5,5 @@ jobs:
       - image: circleci/php:5.6-browsers
     steps:
       - checkout
-      - run: php artisan
+      - run: php vendor/bin/phpunit -v tests/tryTest
 
