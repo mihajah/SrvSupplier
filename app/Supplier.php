@@ -10,60 +10,51 @@ class Supplier extends Model {
 	protected $table 			= 'apb_suppliers';
 	protected $primaryKey 		= 'id_supplier';
 	public $timestamps 			= false;
-	// public $editable 		= 	['name', 'key'];
+	public static $showable    	= '';
 
 	use ModelGetProperties;
 	/**
 	*ws Method
 	*/
-	public static function wsOne($id)
+	public static function wsOne($id,$column='')
 	{
-		//
 		if(!self::find($id))
 		{
 			return [];
 		}
 
-		$one = self::find($id);
-		return  [
-					'id' 	=> $one->id_supplier,
-					'name'	=> $one->supplier_name,
-					'key'	=> $one->key
-				];
+		if ($column) 
+		{	
+	  		self::setColumn($column);
+		}
+    	return self::remapSupplierAttributes($id);
 	}
 
-	public static function wsAll()
+	public static function wsAll($column='')
 	{
-		//
-		$all 	= [];
 		$result = self::all();
 		if(count($result)  == 0)
 		{
-			return $all;
+			return [];
 		}
 
 		foreach($result as $one)
 		{
-			$all[] = 	[
-							'id' 	=> $one->id_supplier,
-							'name'	=> $one->supplier_name,
-							'key'	=> $one->key
-					 	];
+			$all[] = self::wsOne($one->id_supplier);
 		}
-
 		return $all;
 	}
 
-	public static function wsfindKey($id)
+	public static function wsfindKey($id,$column='')
 	{
 		//
 		if(strlen($id) < 4) 
 		{
-			 	return self::wsOne($id);
+			 	return self::wsOne($id,$column);
 		}
 		else 
 		{
-			 	return self::findKey($id);		
+			 	return self::findKey($id,$column);		
 		}
 	}
 
@@ -154,7 +145,7 @@ class Supplier extends Model {
 	/*
 	*Public Method
 	*/
-	public static function findKey($id)
+	public static function findKey($id,$column)
 	{
 		//
 		$suppliers = self::where('key', '=', $id)->first();
@@ -162,6 +153,52 @@ class Supplier extends Model {
 		{
 			return [];
 		}
-		return Supplier::wsOne($suppliers->id_supplier);
+		return Supplier::wsOne($suppliers->id_supplier,$column);
 	}
+
+	/*
+	*Internal method
+	*/
+
+    public static function setColumn($raw)
+    {
+        if($raw)
+        {
+            $selected       = explode(',', $raw);
+            self::$showable = $selected;
+        }
+    }
+
+    public static function remapSupplierAttributes($id,$display = [])
+    {
+    	if (empty($display)) 
+    	{
+    		$display	=	[
+    							'id',
+    							'name',
+    							'email',
+    							'key'
+    						];
+    	}
+
+    	$selected = self::$showable;
+    	if(!empty($selected))
+        {
+            $display = $selected;
+        }
+		// $data 	=	[];
+		$one 		= 	self::find($id);						
+			$data['id'] = 	$one->id_supplier;
+
+		    if(in_array('name', $display))
+		        $data['name'] 	= 	$one->supplier_name;
+
+		   	if(in_array('key', $display))
+		        $data['key'] 	= 	$one->key;
+
+		    if(in_array('email', $display))
+		        $data['email'] 	= 	$one->email;
+	     	
+	    return $data;   
+    }
 }

@@ -5,7 +5,7 @@
     </IfModule>
 
 	RewriteEngine On
-    RewriteBase /dev/services/
+    RewriteBase /dev/services/supplier/
 
     # Redirect Trailing Slashes...
     RewriteCond %{REQUEST_FILENAME} !-d

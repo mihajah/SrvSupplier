@@ -4,7 +4,7 @@
  * @SWG\Swagger(
  *     schemes={"http", "https"},
  *     host="staging.touchiz.fr",
- *     basePath="/dev/services",
+ *     basePath="/dev/services/supplier",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="Techtablet Services Documentation",
@@ -34,7 +34,6 @@ use Illuminate\Support\Facades\File;
 $app->get('/', function () use ($app) {
     return $app->welcome();
 });
-
 
 // ROUTES FOR SUPPLIER ORDERS
 
@@ -145,7 +144,8 @@ $app->get('/supplierorders/{id}', 'SupplierController@getOrder');
  *         in="query",
  *         description="ID de l'application",
  *         required=true,
- *         type="integer"
+ *         type="integer",
+ *         default=1
  *     ),
  *     @SWG\Response(
  *         response=500,
@@ -268,7 +268,7 @@ $app->post('/supplierorders', 'SupplierController@createOrder');
  *          description="Connexion avec le serveur avec succès")
  * )
  */
-$app->put('/supplierorders', 'SupplierController@editOrder');
+$app->put('/supplierorders/{id}', 'SupplierController@editOrder');
 
 
 //doc route
@@ -428,3 +428,109 @@ $app->post('/supplier', 'SupplierController@create');
  * )
  */ 
 $app->put('/supplier/{id}', 'SupplierController@update');
+
+
+
+//ROUTE FOR ORDER
+/**
+ * @SWG\Put(
+ *     path="/order/{id_order}/{id_product}",
+ *     tags={"Gestion des commandes fournisseur"},
+ *     summary="Edition d'un produit pour une commande",
+ *     description="Edition d'un produit pour une commande au moyen des informations passées en paramètre",
+ *     operationId="EditPrdOrder",
+ *     produces={"application/json"},
+ *     @SWG\Parameter(
+ *         name="id_order",
+ *         in="path",
+ *         description="ID du commande",
+ *         required=true,
+ *         type="integer"
+ *     ),
+*     @SWG\Parameter(
+ *         name="id_product",
+ *         in="path",
+ *         description="ID du produit",
+ *         required=true,
+ *         type="integer"
+ *     ),
+ *     @SWG\Parameter(
+ *         name="qty_wanted",
+ *         in="query",
+ *         description="Quantité d'un produit",
+ *         required=false,
+ *         type="integer"
+ *     ),
+ *    @SWG\Parameter(
+ *         name="buying_price",
+ *         in="query",
+ *         description="Prix de vente proposé par le fournisseur",
+ *         required=false,
+ *         type="number"
+ *     ),
+ *    @SWG\Parameter(
+ *         name="target_price",
+ *         in="query",
+ *         description="Prix de vente proposé par techtablet",
+ *         required=false,
+ *         type="number"
+ *     ),
+ *    @SWG\Parameter(
+ *         name="status",
+ *         in="query",
+ *         description="Status d'un produit dans une commande",
+ *         required=false,
+ *         type="string"
+ *     ),
+ *     @SWG\Response(
+ *         response=500,
+ *         description="Echec de la transaction"
+ *     ),
+ *     @SWG\Response(
+ *         response=404,
+ *         description="Page demander introuvable"
+ *     ),
+ *     @SWG\Response(
+ *          response="200", 
+ *          description="Connexion avec le serveur avec succès")
+ * )
+ */ 
+$app->put('/order/{id_order}/{id_product}', 'SupplierController@EditPrdOrder');
+
+
+/**
+ * @SWG\Get(
+ *     path="/order/{id_order}/{id_supplier}",
+ *     tags={"Gestion des commandes fournisseur"},
+ *     summary="Edition d'un produit pour une commande",
+ *     description="Edition d'un produit pour une commande au moyen des informations passées en paramètre",
+ *     operationId="orderValidated",
+ *     produces={"application/json"},
+ *     @SWG\Parameter(
+ *         name="id_order",
+ *         in="path",
+ *         description="ID du commande",
+ *         required=true,
+ *         type="integer"
+ *     ),
+*     @SWG\Parameter(
+ *         name="id_supplier",
+ *         in="path",
+ *         description="ID du fournisseur",
+ *         required=true,
+ *         type="integer"
+ *     ),
+ *     @SWG\Response(
+ *         response=500,
+ *         description="Echec de la transaction"
+ *     ),
+ *     @SWG\Response(
+ *         response=404,
+ *         description="Page demander introuvable"
+ *     ),
+ *     @SWG\Response(
+ *          response="200", 
+ *          description="Connexion avec le serveur avec succès")
+ * )
+ */ 
+$app->get('/validate/{id_order}/{id_supplier}', 'SupplierController@orderValidated');

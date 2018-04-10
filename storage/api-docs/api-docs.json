@@ -6,7 +6,7 @@
         "version": "1.0.0"
     },
     "host": "staging.touchiz.fr",
-    "basePath": "/dev/services",
+    "basePath": "/dev/services/supplier",
     "schemes": [
         "http",
         "https"
@@ -65,7 +65,8 @@
                         "in": "query",
                         "description": "ID de l'application",
                         "required": true,
-                        "type": "integer"
+                        "type": "integer",
+                        "default": 1
                     }
                 ],
                 "responses": {
@@ -370,6 +371,74 @@
                         "in": "query",
                         "description": "Key du fournisseur",
                         "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Echec de la transaction"
+                    },
+                    "404": {
+                        "description": "Page demander introuvable"
+                    },
+                    "200": {
+                        "description": "Connexion avec le serveur avec succ\u00e8s"
+                    }
+                }
+            }
+        },
+        "/order/{id_order}/{id_product}": {
+            "put": {
+                "tags": [
+                    "Gestion des commandes fournisseur"
+                ],
+                "summary": "Edition d'un produit pour une commande",
+                "description": "Edition d'un produit pour une commande au moyen des informations pass\u00e9es en param\u00e8tre",
+                "operationId": "wsEditPrdOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id_order",
+                        "in": "path",
+                        "description": "ID du commande",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id_product",
+                        "in": "path",
+                        "description": "ID du produit",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "qty_wanted",
+                        "in": "query",
+                        "description": "Quantit\u00e9 d'un produit",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "buying_price",
+                        "in": "query",
+                        "description": "Prix de vente propos\u00e9 par le fournisseur",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "target_price",
+                        "in": "query",
+                        "description": "Prix de vente propos\u00e9 par techtablet",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Status d'un produit dans une commande",
+                        "required": false,
                         "type": "string"
                     }
                 ],

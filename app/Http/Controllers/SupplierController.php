@@ -8,102 +8,63 @@ use Illuminate\Http\Request;
 use App\Helpers\ClientRest as R;
 use DB;
 use App\Supplier;
+use App\Order as O;
 
 class SupplierController extends BaseController
 {
 
+	/**
+	 * Supplier Order Methods
+	 */
 	public function getAllOrders()
 	{
-		try
-		{
-			$url 	= config('constants.api.url').'suppliers/orders';
-			return R::get($url);
-		}
-
-		catch(\Exception $e)
-		{
-			return [
-				'success'	=> false,
-				'error'		=> $e->getMessage()
-			];
-		}
+		return O::wsAll();
 	}
 
 	public function getAllOpenOrders()
 	{
-		try
-		{
-			$url 	= config('constants.api.url').'suppliers/orders/open';
-			return R::get($url);
-		}
-		catch(\Exception $e)
-		{
-			return [
-				'success'	=> false,
-				'error'		=> $e->getMessage()
-			];
-		}
+		return O::wsOpen();
 	}
 
 	public function getOrder($id)
 	{
-		try
-		{
-			$id 	= (int) $id;
-			$url 	= config('constants.api.url').'suppliers/order/'.$id;
-			return R::get($url);
-		}
-		catch(\Exception $e)
-		{
-			return [
-				'success'	=> false,
-				'error'		=> $e->getMessage()
-			];
-		}
+		return O::wsOne($id);
 	}
-
+	
 	public function createOrder(Request $r)
 	{
-		try
-		{
-			$url 	= config('constants.api.url').'suppliers/createorder';
-			$data 	= $r->all();
-			return R::post($url, $data);
-		}
-		catch(\Exception $e)
-		{
-			return [
-				'success'	=> false,
-				'error'		=> $e->getMessage()
-			];
-		}
+		$data 	= $r->all();
+		return O::wsCreate($data);
 	}
 
-	public function editOrder(Request $r)
+	public function editOrder(Request $r, $id)
 	{
-		try
-		{
-			$url 	= config('constants.api.url').'suppliers/editorder';
-			$data 	= $r->all();
-			return R::put($url, $data);
-		}
-		catch(\Exception $e)
-		{
-			return [
-				'success'	=> false,
-				'error'		=> $e->getMessage()
-			];
-		}
+		$data 	= $r->all();
+		return O::wsEdit($data, $id);
+	}
+
+	public function EditPrdOrder(Request $verb,$id_order,$id_product)
+	{
+		return O::wsEditPrdOrder($verb,$id_order,$id_product);
+	}
+
+	public function orderValidated($id_order,$id_supplier)
+	{
+		return O::wsOrderValidated($id_order,$id_supplier);
 	}
 
 	/*
-	* Method for Supplier
+	* Supplier Methods
 	*/
 	public function getOneSupplier($id)
 	{
 		try 
 		{
-			return Supplier::wsfindKey($id);		
+			$column = '';
+			if (isset($_GET['column'])) {
+				$column = $_GET['column'];
+			}
+			return Supplier::wsfindKey($id,$column);		
 		} 
 		catch (\Exception $e) 
 		{
@@ -118,7 +79,11 @@ class SupplierController extends BaseController
 	{
 		try 
 		{
-			return Supplier::wsAll();	
+			$column = '';
+			if (isset($_GET['column'])) {
+				$column = $_GET['column'];
+			}
+			return Supplier::wsAll($column);	
 		} 
 		catch (\Exception $e) 
 		{
